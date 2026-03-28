@@ -1,0 +1,1671 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulut Quinlan | Principal Software Development Engineer in Test</title>
+  <meta name="description" content="Principal SDET shipping release-safe fintech and SaaS platforms with Playwright, Postman, AWS event validation, and production-risk intelligence.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bulut Quinlan | Principal Software Development Engineer in Test">
+  <meta property="og:description" content="Principal SDET for fintech and SaaS platforms, combining automation, AWS event-driven validation, and release-risk leadership.">
+  <meta property="og:url" content="https://bulut-sdet.vercel.app/">
+  <link rel="canonical" href="https://bulut-sdet.vercel.app/">
+  <meta property="og:image" content="https://bulut-sdet.vercel.app/assets/brand-art.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bulut Quinlan | Principal Software Development Engineer in Test">
+  <meta name="twitter:description" content="Automation, AWS event validation, and production-risk intelligence for release-critical fintech and SaaS systems.">
+  <link rel="icon" type="image/svg+xml" href="assets/brand-art.svg">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Bulut Quinlan",
+      "jobTitle": "Principal Software Development Engineer in Test",
+      "url": "https://bulut-sdet.vercel.app/",
+      "sameAs": ["https://www.linkedin.com/in/bulut-quinlan/"]
+    }
+  </script>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("theme");
+        var theme = (saved === "light" || saved === "dark")
+          ? saved
+          : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #f4f7f4;
+      --surface: #ffffff;
+      --surface-2: #eef4ef;
+      --text: #1b2a22;
+      --muted: #3b5246;
+      --line: #d6e1d8;
+      --accent: #1f6d48;
+      --accent-strong: #175236;
+      --shadow: 0 8px 24px rgba(16, 41, 29, 0.08);
+      --bg-spot-1: #dbe9df;
+      --bg-spot-2: #d3e7dc;
+      --hero-spot-1: rgba(77, 146, 107, 0.18);
+      --hero-spot-2: rgba(132, 181, 152, 0.2);
+      --hero-spot-3: rgba(205, 229, 214, 0.26);
+      --hero-pulse-bg: color-mix(in srgb, var(--surface-2), var(--surface) 42%);
+      --tag-text: #163a30;
+      --active-shadow: 0 6px 16px rgba(22, 46, 34, 0.15);
+      --radius: 14px;
+      --radius-sm: 999px;
+      --max: 1080px;
+      --font: "IBM Plex Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #111814;
+      --surface: #1a241e;
+      --surface-2: #233128;
+      --text: #e5efe8;
+      --muted: #9eb0a5;
+      --line: #2f4137;
+      --accent: #6ccf9b;
+      --accent-strong: #7de0ac;
+      --shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+      --bg-spot-1: #1c2a22;
+      --bg-spot-2: #24382d;
+      --hero-spot-1: rgba(89, 145, 113, 0.17);
+      --hero-spot-2: rgba(57, 100, 77, 0.18);
+      --hero-spot-3: rgba(35, 53, 43, 0.26);
+      --hero-pulse-bg: color-mix(in srgb, var(--surface-2), var(--surface) 55%);
+      --tag-text: #d0e3d8;
+      --active-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at 12% 8%, var(--bg-spot-1) 0, transparent 34%),
+        radial-gradient(circle at 86% 12%, var(--bg-spot-2) 0, transparent 31%),
+        var(--bg);
+      background-size: 120% 120%, 120% 120%, auto;
+      animation: bgDrift 30s ease-in-out infinite alternate;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    @keyframes bgDrift {
+      0% {
+        background-position: 0% 0%, 100% 0%, 0 0;
+      }
+      100% {
+        background-position: 10% 8%, 92% 14%, 0 0;
+      }
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .wrap {
+      width: min(100% - 2rem, var(--max));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: color-mix(in srgb, var(--bg), var(--surface) 45%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+    }
+
+    .identity {
+      min-width: 0;
+    }
+
+    .name {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .title {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    .pill,
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      padding: 0.48rem 0.9rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .pill:hover,
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: var(--active-shadow);
+    }
+
+    .pill.active {
+      border-color: var(--accent);
+      box-shadow: var(--active-shadow);
+      color: var(--text);
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .btn.primary:hover {
+      background: var(--accent-strong);
+    }
+
+    .theme-toggle {
+      min-width: 2.35rem;
+      justify-content: center;
+    }
+
+    main {
+      padding: 2rem 0 3rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+      scroll-margin-top: 6rem;
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 2vw + 0.8rem, 1.9rem);
+      overflow: hidden;
+      background: linear-gradient(145deg, var(--surface), color-mix(in srgb, var(--surface-2), var(--surface) 70%));
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 20rem;
+      height: 20rem;
+      right: -7rem;
+      top: -8rem;
+      background: radial-gradient(circle, var(--hero-spot-1) 0, transparent 66%);
+      animation: heroSpotFloat 22s ease-in-out infinite alternate;
+    }
+
+    .hero::after {
+      width: 16rem;
+      height: 16rem;
+      left: -4rem;
+      bottom: -7rem;
+      background: radial-gradient(circle, var(--hero-spot-2) 0, var(--hero-spot-3) 45%, transparent 75%);
+      animation: heroSpotFloat 26s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes heroSpotFloat {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      100% {
+        transform: translate3d(12px, -10px, 0) scale(1.08);
+      }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .hero-left h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3.8vw, 2.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      max-width: 20ch;
+    }
+
+    .hero-left p {
+      margin: 0.95rem 0 0;
+      max-width: 62ch;
+      color: var(--muted);
+    }
+
+    .hero-cta {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .hero-pulse {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--hero-pulse-bg);
+      padding: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      min-height: 100%;
+    }
+
+    .hero-pulse h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .pulse-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .pulse-row strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .pulse-signals {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-top: 0.1rem;
+    }
+
+    .signal-chip {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--muted);
+      border-radius: var(--radius-sm);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 0.25rem 0.55rem;
+      animation: chipCycle 6.4s ease-in-out infinite;
+    }
+
+    .signal-chip:nth-child(2) {
+      animation-delay: 1.2s;
+    }
+
+    .signal-chip:nth-child(3) {
+      animation-delay: 2.4s;
+    }
+
+    .signal-chip:nth-child(4) {
+      animation-delay: 3.6s;
+    }
+
+    @keyframes chipCycle {
+      0%, 70%, 100% {
+        border-color: var(--line);
+        color: var(--muted);
+        background: var(--surface);
+      }
+      18%, 28% {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: color-mix(in srgb, var(--surface-2), var(--surface) 60%);
+      }
+    }
+
+    .pulse-svg {
+      width: 100%;
+      height: 44px;
+      display: block;
+    }
+
+    .pulse-grid {
+      stroke: color-mix(in srgb, var(--line), transparent 28%);
+      stroke-width: 1;
+    }
+
+    .pulse-line {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 8 8;
+      animation: pulseDash 3.8s linear infinite;
+    }
+
+    @keyframes pulseDash {
+      from {
+        stroke-dashoffset: 48;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .pulse-status {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
+      border-radius: 10px;
+      padding: 0.35rem 0.55rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      opacity: 0.95;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .stamp[data-stamp="hold"] {
+      border-color: var(--accent-strong);
+      color: var(--accent-strong);
+    }
+
+    @keyframes stampThump {
+      0% {
+        transform: rotate(-8deg) scale(1);
+      }
+      35% {
+        transform: rotate(-10deg) scale(1.08);
+      }
+      100% {
+        transform: rotate(-8deg) scale(1);
+      }
+    }
+
+    .stamp.thump {
+      animation: stampThump 260ms ease-out;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-grid {
+      align-items: start;
+    }
+
+    .grid.four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem;
+    }
+
+    .console-tabs {
+      display: inline-flex;
+      gap: 0.45rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .console-tab.active {
+      border-color: var(--accent);
+      box-shadow: var(--active-shadow);
+    }
+
+    .console-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .console-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.8rem;
+      padding: 0.7rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface), var(--surface-2) 34%);
+    }
+
+    .console-head-left {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-width: 0;
+    }
+
+    .console-dots {
+      display: inline-flex;
+      gap: 0.25rem;
+      flex-shrink: 0;
+    }
+
+    .console-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--muted), var(--surface) 38%);
+      border: 1px solid var(--line);
+    }
+
+    .console-title {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .console-body {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      padding: 0.9rem;
+      min-height: 13rem;
+      background: color-mix(in srgb, var(--surface-2), var(--surface) 38%);
+    }
+
+    .console-line {
+      display: block;
+      white-space: pre-wrap;
+    }
+
+    .console-ok {
+      color: var(--accent);
+    }
+
+    .console-warn {
+      color: var(--accent-strong);
+    }
+
+    .console-decision {
+      font-weight: 800;
+    }
+
+    .card h2,
+    .card h3 {
+      margin: 0 0 0.55rem;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .metric {
+      text-align: center;
+      padding: 1.1rem 0.9rem;
+    }
+
+    .metric .value {
+      margin: 0;
+      font-size: clamp(1.6rem, 3.7vw, 2.25rem);
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .metric .label {
+      margin: 0.55rem 0 0;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .tag {
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--tag-text);
+    }
+
+    .subtle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .brief-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--accent), transparent 86%) 0, transparent 32%),
+        linear-gradient(160deg, var(--surface), color-mix(in srgb, var(--surface-2), var(--surface) 60%));
+    }
+
+    .brief-card::after {
+      content: "";
+      position: absolute;
+      inset: auto auto -2.5rem -2.5rem;
+      width: 8rem;
+      height: 8rem;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent), transparent 90%);
+      pointer-events: none;
+    }
+
+    .brief-kicker {
+      margin: 0 0 0.55rem;
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .brief-lead {
+      margin: 0;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      line-height: 1.32;
+      font-weight: 800;
+      max-width: 18ch;
+    }
+
+    .brief-support {
+      margin: 0.9rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      max-width: 58ch;
+    }
+
+    .brief-signal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .brief-signal {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--surface), var(--surface-2) 44%);
+      padding: 0.8rem 0.9rem;
+    }
+
+    .brief-signal-label {
+      display: block;
+      margin-bottom: 0.28rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brief-signal-value {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .brief-rule {
+      width: 3.25rem;
+      height: 1px;
+      margin: 1rem 0 0;
+      background: color-mix(in srgb, var(--accent), transparent 65%);
+    }
+
+    .lens-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--accent), transparent 84%) 0, transparent 34%),
+        linear-gradient(160deg, var(--surface), color-mix(in srgb, var(--surface-2), var(--surface) 58%));
+    }
+
+    .lens-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -2rem -2rem auto;
+      width: 8rem;
+      height: 8rem;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent), transparent 88%);
+      pointer-events: none;
+    }
+
+    .lens-kicker {
+      margin: 0 0 0.55rem;
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .lens-objective {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--surface), var(--surface-2) 45%);
+      padding: 0.9rem 1rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .lens-objective-label {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lens-objective-copy {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .lens-flow {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .lens-step {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--surface), var(--surface-2) 30%);
+      overflow: hidden;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18) inset;
+    }
+
+    .lens-step[open] {
+      border-color: color-mix(in srgb, var(--accent), var(--line) 55%);
+      box-shadow: var(--active-shadow);
+    }
+
+    .lens-step-summary {
+      list-style: none;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.8rem;
+      align-items: center;
+      padding: 0.9rem 1rem;
+      cursor: pointer;
+    }
+
+    .lens-step-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .lens-step-summary:hover {
+      background: color-mix(in srgb, var(--surface-2), transparent 10%);
+    }
+
+    .lens-step-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.9rem;
+      height: 1.9rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent), white 82%);
+      color: var(--accent-strong);
+      font-size: 0.8rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .lens-step-title {
+      margin: 0;
+      font-size: 0.94rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .lens-step-preview {
+      margin: 0.12rem 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+
+    .lens-step-toggle {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface), var(--surface-2) 34%);
+      color: var(--accent-strong);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .lens-step[open] .lens-step-toggle {
+      transform: rotate(45deg);
+      background: color-mix(in srgb, var(--accent), white 84%);
+      border-color: color-mix(in srgb, var(--accent), var(--line) 60%);
+    }
+
+    .lens-step-body {
+      padding: 0 1rem 1rem 3.7rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .lens-step-copy {
+      margin: 0;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 1rem;
+      color: var(--text);
+    }
+
+    .list li + li {
+      margin-top: 0.35rem;
+    }
+
+    .section-title {
+      margin: 0 0 0.75rem;
+      font-size: 1.05rem;
+    }
+
+    .contact-list {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 1rem 0 2.25rem;
+    }
+
+    @media (max-width: 960px) {
+      .grid.four {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 840px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-pulse {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .grid.two {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid.four {
+        grid-template-columns: 1fr;
+      }
+
+      .brief-signal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wrap {
+        width: min(100% - 1rem, var(--max));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body,
+      .hero::before,
+      .hero::after,
+      .signal-chip,
+      .pulse-line,
+      .stamp.thump {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="identity">
+        <p class="name">Bulut Quinlan</p>
+        <p class="title">Principal Software Development Engineer in Test | Release Safety &amp; Production Risk</p>
+      </div>
+      <nav class="actions" aria-label="Quick links">
+        <a class="pill nav-link" href="#about">About</a>
+        <a class="pill nav-link" href="#impact">Impact</a>
+        <a class="pill nav-link" href="#skills">Skills</a>
+        <a class="pill nav-link" href="#experience">Experience</a>
+        <a class="pill nav-link" href="#certs">Certifications</a>
+        <a class="pill nav-link" href="#contact">Contact</a>
+        <a class="pill" href="https://www.linkedin.com/in/bulut-quinlan/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="pill" id="resume-link" data-has-resume="true" href="assets/resume.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
+        <button class="pill theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">🌙</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="top">
+      <div class="hero">
+        <div class="hero-grid">
+          <div class="hero-left">
+            <h1>I prevent release regressions before they cost the business.</h1>
+            <p>Principal SDET shipping release-safe fintech and SaaS platforms with Playwright, Postman, AWS event validation, and production-risk intelligence across web, mobile, APIs, and distributed services.</p>
+            <div class="hero-cta">
+              <a class="btn primary" href="mailto:quinlansdet@gmail.com">Email Me</a>
+              <a class="btn" href="#experience">View Experience</a>
+              <a class="btn" href="#console">Go/No-Go Console</a>
+            </div>
+          </div>
+          <article class="hero-pulse" aria-label="Release Safety Pulse">
+            <div class="stamp" id="releaseStamp" data-stamp="go">
+              <span class="stamp-text">GO</span>
+              <span class="stamp-icon" aria-hidden="true">✅</span>
+            </div>
+            <h3>Release Safety Pulse</h3>
+            <div class="pulse-row"><span>Workflow Integrity</span><strong>PASS</strong></div>
+            <div class="pulse-row"><span>AWS Event Validation</span><strong>PASS</strong></div>
+            <div class="pulse-row"><span>Production Signals</span><strong>CORRELATED</strong></div>
+            <div class="pulse-signals" aria-label="Signal sources">
+              <span class="signal-chip">RUM</span>
+              <span class="signal-chip">Logs</span>
+              <span class="signal-chip">Events</span>
+              <span class="signal-chip">Data</span>
+            </div>
+            <svg class="pulse-svg" viewBox="0 0 300 44" aria-hidden="true" focusable="false">
+              <path class="pulse-grid" d="M0 22H300"></path>
+              <path class="pulse-line" d="M0 22 L40 22 L58 10 L72 35 L92 22 L130 22 L145 14 L160 28 L182 22 L220 22 L238 11 L252 33 L272 22 L300 22"></path>
+            </svg>
+            <div class="pulse-status"><span id="pulseStatusText">release safe</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="grid two about-grid">
+      <article class="card brief-card">
+        <p class="brief-kicker">Executive Summary</p>
+        <h2>Release judgment for high-risk systems.</h2>
+        <p class="brief-lead">I turn system behavior into clear go/no-go intelligence for fintech and SaaS launches.</p>
+        <p class="brief-support">My approach combines end-to-end automation with API, data, async event, observability, and AI-assisted investigation workflows so engineering and product can make confident release decisions under pressure.</p>
+        <div class="brief-rule" aria-hidden="true"></div>
+        <div class="brief-signal-grid" aria-label="Core focus areas">
+          <div class="brief-signal">
+            <span class="brief-signal-label">Focus</span>
+            <p class="brief-signal-value">Release safety</p>
+          </div>
+          <div class="brief-signal">
+            <span class="brief-signal-label">Strength</span>
+            <p class="brief-signal-value">Production-risk intelligence</p>
+          </div>
+          <div class="brief-signal">
+            <span class="brief-signal-label">Systems</span>
+            <p class="brief-signal-value">Event-driven validation</p>
+          </div>
+          <div class="brief-signal">
+            <span class="brief-signal-label">Decision</span>
+            <p class="brief-signal-value">Go/no-go readiness</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card lens-card">
+        <p class="lens-kicker">Operating Lens</p>
+        <h2>How I evaluate a release.</h2>
+        <div class="lens-objective">
+          <span class="lens-objective-label">Primary Objective</span>
+          <p class="lens-objective-copy">Reduce uncertainty before release by proving that critical paths, downstream services, and business rules all converge correctly.</p>
+        </div>
+        <div class="lens-flow" aria-label="Execution model">
+          <details class="lens-step" open>
+            <summary class="lens-step-summary">
+              <span class="lens-step-index">01</span>
+              <div>
+                <p class="lens-step-title">Risk mapping</p>
+                <p class="lens-step-preview">Start with the paths where failure becomes business risk.</p>
+              </div>
+              <span class="lens-step-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="lens-step-body">
+              <p class="lens-step-copy">Identify where workflow failure becomes customer, revenue, or operational risk before deciding where coverage needs to go deepest.</p>
+            </div>
+          </details>
+          <details class="lens-step">
+            <summary class="lens-step-summary">
+              <span class="lens-step-index">02</span>
+              <div>
+                <p class="lens-step-title">Automation architecture</p>
+                <p class="lens-step-preview">Connect UI, API, contract, data, and release workflows.</p>
+              </div>
+              <span class="lens-step-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="lens-step-body">
+              <p class="lens-step-copy">Design coverage that reflects how the system actually behaves in production, not just what is easiest to automate.</p>
+            </div>
+          </details>
+          <details class="lens-step">
+            <summary class="lens-step-summary">
+              <span class="lens-step-index">03</span>
+              <div>
+                <p class="lens-step-title">Contract and event validation</p>
+                <p class="lens-step-preview">Verify payloads, retries, and cross-system state convergence.</p>
+              </div>
+              <span class="lens-step-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="lens-step-body">
+              <p class="lens-step-copy">Check downstream behavior, async events, and failure-path handling so silent breakage gets caught before it reaches customers.</p>
+            </div>
+          </details>
+          <details class="lens-step">
+            <summary class="lens-step-summary">
+              <span class="lens-step-index">04</span>
+              <div>
+                <p class="lens-step-title">Production-signal confirmation</p>
+                <p class="lens-step-preview">Use logs, RUM, and system evidence to support the final call.</p>
+              </div>
+              <span class="lens-step-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="lens-step-body">
+              <p class="lens-step-copy">Correlate observability signals into a confident go/no-go recommendation that engineering and product can act on quickly.</p>
+            </div>
+          </details>
+        </div>
+      </article>
+    </section>
+
+    <section id="impact" aria-label="Impact metrics">
+      <div class="grid four" data-counter-region>
+        <article class="card metric">
+          <p class="value"><span class="counter" data-target="200">0</span><span>+</span></p>
+          <p class="label">Playwright UI tests architected for financing workflows</p>
+        </article>
+        <article class="card metric">
+          <p class="value"><span class="counter" data-target="12">0</span></p>
+          <p class="label">Regulated integrations shipped with zero failed go-lives</p>
+        </article>
+        <article class="card metric">
+          <p class="value"><span class="counter" data-target="50">0</span><span>+</span></p>
+          <p class="label">Payment endpoints covered by contract-level validation</p>
+        </article>
+        <article class="card metric">
+          <p class="value"><span class="counter" data-target="8">0</span><span>+</span></p>
+          <p class="label">Distributed services traced through event-driven checks</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="console" aria-label="Go or no-go console" data-console-region>
+      <h2 class="section-title">Go/No-Go Console</h2>
+      <div class="console-tabs" role="tablist" aria-label="Release scripts">
+        <button class="pill console-tab active" id="console-tab-financing" type="button" role="tab" aria-selected="true" aria-controls="consoleBody" data-mode="financing">Financing Release</button>
+        <button class="pill console-tab" id="console-tab-payments" type="button" role="tab" aria-selected="false" aria-controls="consoleBody" data-mode="payments">Payments Release</button>
+      </div>
+      <article class="card console-card">
+        <div class="console-header">
+          <div class="console-head-left">
+            <span class="console-dots" aria-hidden="true">
+              <span class="console-dot"></span>
+              <span class="console-dot"></span>
+              <span class="console-dot"></span>
+            </span>
+            <p class="console-title">bulut@release-safety ~ %</p>
+          </div>
+        </div>
+        <div class="console-body" id="consoleBody" aria-live="polite"></div>
+      </article>
+    </section>
+
+    <section id="skills">
+      <div class="grid two">
+        <article class="card">
+          <h3>Automation</h3>
+          <ul class="list">
+            <li>Playwright and Selenium test architecture</li>
+            <li>Postman / Newman and RestAssured API validation</li>
+            <li>Appium coverage for mobile user journeys</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Cloud &amp; Observability</h3>
+          <ul class="list">
+            <li>AWS SQS, SNS, EventBridge, and S3 validation</li>
+            <li>Datadog and Splunk investigation workflows</li>
+            <li>Event-driven system tracing across async flows</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Languages &amp; Data</h3>
+          <ul class="list">
+            <li>JavaScript, TypeScript, Python, and SQL</li>
+            <li>REST and GraphQL API validation</li>
+            <li>State and data assertions for business-critical workflows</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Release Strategy</h3>
+          <ul class="list">
+            <li>Risk-based regression targeting high-impact paths</li>
+            <li>Go/no-go readiness criteria tied to business risk</li>
+            <li>Defect triage framed by operational impact</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>AI-Assisted QA</h3>
+          <ul class="list">
+            <li>AI-assisted test design using Copilot, OpenAI, Claude, Windsurf, and Atlassian Rovo</li>
+            <li>LLM workflows for edge-case discovery, exploratory scenario generation, and automation scaffolding</li>
+            <li>AI-supported synthetic test data creation, log analysis, and root-cause investigation across distributed services</li>
+          </ul>
+        </article>
+      </div>
+      <article class="card" style="margin-top: 1rem;">
+        <h3 class="section-title">What I Bring</h3>
+        <ul class="list">
+          <li>Automation systems that connect UI, API, data, and async events into one release story</li>
+          <li>Clear production-risk framing for engineering and product stakeholders</li>
+          <li>AI-accelerated investigation and coverage expansion for high-risk fintech and SaaS launches</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="experience">
+      <div class="grid two">
+        <article class="card">
+          <h2>EverBright</h2>
+          <p class="subtle"><strong>Principal Software Quality Assurance Engineer</strong> (Sept 2023 - Present)</p>
+          <ul class="list">
+            <li>Architected 200+ Playwright UI tests backed by API assertions across a 5-stage financing lifecycle, reducing regression-related rollbacks by about 40%.</li>
+            <li>Drove parity coverage across React web and React Native mobile releases, cutting cross-platform defect leakage to zero over 6 consecutive sprints.</li>
+            <li>Replaced UI-only smoke suites with Postman/Newman contract tests, accelerating contract-level defect detection by 3x.</li>
+            <li>Asserted AWS SQS, SNS, and EventBridge payloads across 8+ distributed services, catching async event failures before production and covering retry and failure paths.</li>
+            <li>Correlated Datadog RUM sessions with backend logs to cut mean time to root cause by 50% and support recurring critical incident post-mortems.</li>
+            <li>Owned third-party validation as a mandatory release gate, securing zero failed go-lives across 12 regulated integrations.</li>
+            <li>Embedded in architecture reviews pre-implementation and surfaced 15+ high-impact risks before they became release issues.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Playwright</span>
+            <span class="tag">React Native</span>
+            <span class="tag">React Web</span>
+            <span class="tag">Django</span>
+            <span class="tag">AWS Events</span>
+            <span class="tag">Postman</span>
+            <span class="tag">Datadog</span>
+            <span class="tag">Release Gate</span>
+            <span class="tag">Integrations</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Fiserv</h2>
+          <p class="subtle"><strong>Lead SDET</strong> (June 2021 - Apr 2023)</p>
+          <ul class="list">
+            <li>Protected financial accuracy across high-volume payment flows by automating authorization to settlement to reconciliation and validating balance correctness at each critical transition.</li>
+            <li>Established nightly regression pipelines for the 20 highest-risk payment paths, reducing production-impacting failures by 60% and surfacing issues before business-day peak.</li>
+            <li>Implemented contract-level validation across 50+ payment endpoints, eliminating a class of silent data corruption bugs.</li>
+            <li>Built CI pipelines with Iron Bank hardened container images, delivering zero security-compliance gaps across automated test environments.</li>
+            <li>Led structured defect triage that translated failures into operational risk rankings, cutting triage cycle time by 35% and enabling same-day hotfix prioritization.</li>
+            <li>Created Splunk correlation dashboards that reduced investigation time from hours to minutes and informed major incident post-mortems.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Payments</span>
+            <span class="tag">API</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Splunk</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">Iron Bank</span>
+            <span class="tag">Release Triage</span>
+          </div>
+        </article>
+      </div>
+
+      <article class="card" style="margin-top: 1rem;">
+        <h3 class="section-title">Earlier Roles</h3>
+        <ul class="list">
+          <li><strong>KeHE Distributors</strong> - QA Automation Engineer (Oct 2020 - Jun 2021): built 30+ deployment readiness checks, cut post-deploy verification from 45 minutes to under 5, and expanded automation coverage across order-processing workflows.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="certs" class="grid two">
+      <article class="card">
+        <h2>Certifications</h2>
+        <ul class="list">
+          <li>CompTIA Security+ (Active)</li>
+          <li>Fortinet NSE 1 - Network Security Associate</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2>Achievements</h2>
+        <ul class="list">
+          <li>Hackathon Winner - Test Automation (EverBright, 2024): Contributed to a first-place AI-assisted automation framework prototype built to address a gap in the release pipeline and selected by engineering and product judges.</li>
+          <li>Hackathon Winner - Apple TV Platform Expansion (EverBright, 2024): Contributed to a first-place React Native Apple TV platform effort delivered during a single sprint, demonstrating cross-functional platform execution beyond core QA scope.</li>
+          <li>World Record Holder - Organized a large-scale tree-planting fundraiser coordinating hundreds of participants across logistics, communications, and execution.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="contact">
+      <article class="card">
+        <h2>Contact</h2>
+        <p class="subtle">Available for Principal SDET and senior quality engineering opportunities focused on release safety, event-driven systems, and production reliability.</p>
+        <div class="contact-list">
+          <a class="btn primary" href="mailto:quinlansdet@gmail.com">Email Me</a>
+          <a class="btn" href="https://www.linkedin.com/in/bulut-quinlan/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <span id="year"></span> Bulut Quinlan. All rights reserved.
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var themeToggle = document.getElementById("themeToggle");
+      var themeIcon = themeToggle ? themeToggle.querySelector(".theme-icon") : null;
+      var mediaQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+      var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function getStoredTheme() {
+        try {
+          var saved = localStorage.getItem("theme");
+          return (saved === "light" || saved === "dark") ? saved : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function resolveTheme() {
+        var saved = getStoredTheme();
+        if (saved) return saved;
+        if (mediaQuery && mediaQuery.matches) return "dark";
+        return "light";
+      }
+
+      function applyTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        if (themeToggle) {
+          themeToggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+        }
+        if (themeIcon) {
+          themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+        }
+      }
+
+      function saveTheme(theme) {
+        try {
+          localStorage.setItem("theme", theme);
+        } catch (e) {
+          // noop
+        }
+      }
+
+      applyTheme(resolveTheme());
+
+      if (themeToggle) {
+        themeToggle.addEventListener("click", function () {
+          var current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+          var next = current === "dark" ? "light" : "dark";
+          applyTheme(next);
+          saveTheme(next);
+        });
+      }
+
+      if (!getStoredTheme() && mediaQuery) {
+        mediaQuery.addEventListener("change", function (event) {
+          applyTheme(event.matches ? "dark" : "light");
+        });
+      }
+
+      var yearNode = document.getElementById("year");
+      if (yearNode) yearNode.textContent = new Date().getFullYear();
+
+      var resumeLink = document.getElementById("resume-link");
+      if (resumeLink && resumeLink.dataset.hasResume !== "true") {
+        resumeLink.remove();
+      }
+
+      var pulseStatusText = document.getElementById("pulseStatusText");
+      var releaseStamp = document.getElementById("releaseStamp");
+      var stampText = releaseStamp ? releaseStamp.querySelector(".stamp-text") : null;
+      var stampIcon = releaseStamp ? releaseStamp.querySelector(".stamp-icon") : null;
+      var statusLines = ["release safe", "events verified", "signals correlated", "ready to ship"];
+      var statusIndex = 0;
+      var isHold = false;
+
+      function applyStampMode() {
+        if (!releaseStamp || !stampText || !stampIcon) return;
+        if (isHold) {
+          releaseStamp.dataset.stamp = "hold";
+          stampText.textContent = "HOLD";
+          stampIcon.textContent = "⛔";
+        } else {
+          releaseStamp.dataset.stamp = "go";
+          stampText.textContent = "GO";
+          stampIcon.textContent = "✅";
+        }
+      }
+
+      function thumpStamp() {
+        if (prefersReducedMotion || !releaseStamp) return;
+        releaseStamp.classList.remove("thump");
+        void releaseStamp.offsetWidth;
+        releaseStamp.classList.add("thump");
+      }
+
+      applyStampMode();
+      if (pulseStatusText) {
+        pulseStatusText.textContent = statusLines[0];
+        if (!prefersReducedMotion) {
+          window.setInterval(function () {
+            statusIndex = (statusIndex + 1) % statusLines.length;
+            pulseStatusText.textContent = statusLines[statusIndex];
+            thumpStamp();
+          }, 2000);
+        }
+      }
+
+      var counters = Array.prototype.slice.call(document.querySelectorAll(".counter"));
+      if (counters.length) {
+        var counterRegion = document.querySelector("[data-counter-region]");
+
+        function setFinalValues() {
+          counters.forEach(function (counter) {
+            counter.textContent = counter.dataset.target;
+          });
+        }
+
+        function animateCounter(counter, duration) {
+          var target = Number(counter.dataset.target) || 0;
+          var startTime = null;
+
+          function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var progress = Math.min((timestamp - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            counter.textContent = String(Math.floor(target * eased));
+            if (progress < 1) {
+              window.requestAnimationFrame(step);
+            } else {
+              counter.textContent = String(target);
+            }
+          }
+
+          window.requestAnimationFrame(step);
+        }
+
+        if (prefersReducedMotion || !counterRegion || !("IntersectionObserver" in window)) {
+          setFinalValues();
+        } else {
+          var hasAnimatedCounters = false;
+          var counterObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting && !hasAnimatedCounters) {
+                hasAnimatedCounters = true;
+                counters.forEach(function (counter, index) {
+                  animateCounter(counter, 650 + index * 90);
+                });
+                counterObserver.disconnect();
+              }
+            });
+          }, { threshold: 0.35 });
+
+          counterObserver.observe(counterRegion);
+        }
+      }
+
+      var consoleSection = document.querySelector("[data-console-region]");
+      var consoleBody = document.getElementById("consoleBody");
+      var consoleTabs = Array.prototype.slice.call(document.querySelectorAll(".console-tab"));
+      var financingLines = [
+        "$ qualityctl assess --domain financing --release vNext",
+        "✓ critical flows: web / mobile parity",
+        "✓ lifecycle transitions: application → underwriting → contract → installation → operations",
+        "✓ event integrity: SQS / SNS / EventBridge payloads verified",
+        "✓ downstream contracts: Postman / Newman assertions green",
+        "✓ monitoring: Datadog RUM + logs correlated",
+        "DECISION: GO",
+        "confidence: HIGH"
+      ];
+      var paymentsLines = [
+        "$ qualityctl assess --domain payments --release vNext",
+        "✓ lifecycle: auth → settlement → reconciliation",
+        "✓ balance integrity: state + SQL checks aligned",
+        "✓ downstream status: 50+ API contracts confirmed",
+        "✓ regression focus: top 20 high-risk paths covered",
+        "✓ observability: Splunk correlations reviewed",
+        "DECISION: GO",
+        "confidence: HIGH"
+      ];
+      var consoleMode = "financing";
+      var consoleVisible = false;
+      var typingInProgress = false;
+      var replayTimerId = null;
+      var consoleRenderToken = 0;
+      var replayCadenceMs = 11000;
+
+      function linesForMode(mode) {
+        return mode === "payments" ? paymentsLines : financingLines;
+      }
+
+      function lineClassFor(text) {
+        if (text.indexOf("DECISION:") === 0) return "console-line console-decision console-ok";
+        if (text.indexOf("confidence:") === 0) return "console-line console-warn";
+        if (text.indexOf("✓") === 0) return "console-line console-ok";
+        return "console-line";
+      }
+
+      function setTabState(mode) {
+        consoleTabs.forEach(function (tab) {
+          var active = tab.dataset.mode === mode;
+          tab.classList.toggle("active", active);
+          tab.setAttribute("aria-selected", active ? "true" : "false");
+        });
+      }
+
+      function renderConsoleStatic(lines) {
+        if (!consoleBody) return;
+        consoleBody.innerHTML = "";
+        lines.forEach(function (text) {
+          var node = document.createElement("span");
+          node.className = lineClassFor(text);
+          node.textContent = text;
+          consoleBody.appendChild(node);
+        });
+      }
+
+      function stopTyping() {
+        consoleRenderToken += 1;
+        typingInProgress = false;
+      }
+
+      function startTypingCurrentTab() {
+        if (!consoleBody) return;
+        if (prefersReducedMotion) {
+          renderConsoleStatic(linesForMode(consoleMode));
+          return;
+        }
+        if (typingInProgress) return;
+
+        typingInProgress = true;
+        var token = ++consoleRenderToken;
+        var lines = linesForMode(consoleMode);
+        var lineIndex = 0;
+        var charIndex = 0;
+        var currentLineNode = null;
+        consoleBody.innerHTML = "";
+
+        function typeNext() {
+          if (token !== consoleRenderToken) {
+            typingInProgress = false;
+            return;
+          }
+          if (lineIndex >= lines.length) {
+            typingInProgress = false;
+            return;
+          }
+
+          var lineText = lines[lineIndex];
+          if (!currentLineNode) {
+            currentLineNode = document.createElement("span");
+            currentLineNode.className = lineClassFor(lineText);
+            currentLineNode.textContent = "";
+            consoleBody.appendChild(currentLineNode);
+          }
+
+          currentLineNode.textContent = lineText.slice(0, charIndex + 1);
+          charIndex += 1;
+
+          if (charIndex < lineText.length) {
+            window.setTimeout(typeNext, 11);
+          } else {
+            lineIndex += 1;
+            charIndex = 0;
+            currentLineNode = null;
+            window.setTimeout(typeNext, 95);
+          }
+        }
+
+        typeNext();
+      }
+
+      function startConsoleReplayTimer() {
+        if (prefersReducedMotion || replayTimerId !== null) return;
+        replayTimerId = window.setInterval(function () {
+          if (!consoleVisible || typingInProgress) return;
+          startTypingCurrentTab();
+        }, replayCadenceMs);
+      }
+
+      function stopConsoleReplayTimer() {
+        if (replayTimerId !== null) {
+          window.clearInterval(replayTimerId);
+          replayTimerId = null;
+        }
+      }
+
+      setTabState(consoleMode);
+
+      consoleTabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          consoleMode = tab.dataset.mode || "financing";
+          setTabState(consoleMode);
+
+          if (prefersReducedMotion) {
+            renderConsoleStatic(linesForMode(consoleMode));
+            return;
+          }
+
+          if (consoleVisible) {
+            stopTyping();
+            startTypingCurrentTab();
+            stopConsoleReplayTimer();
+            startConsoleReplayTimer();
+          } else {
+            renderConsoleStatic(linesForMode(consoleMode));
+          }
+        });
+      });
+
+      if (consoleSection) {
+        if (prefersReducedMotion) {
+          renderConsoleStatic(linesForMode(consoleMode));
+        } else if ("IntersectionObserver" in window) {
+          var consoleObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              var nowVisible = entry.isIntersecting && entry.intersectionRatio >= 0.4;
+
+              if (nowVisible && !consoleVisible) {
+                consoleVisible = true;
+                stopTyping();
+                startTypingCurrentTab();
+                startConsoleReplayTimer();
+              } else if (!nowVisible && consoleVisible) {
+                consoleVisible = false;
+                stopConsoleReplayTimer();
+                stopTyping();
+              }
+            });
+          }, { threshold: [0, 0.4, 0.7] });
+
+          consoleObserver.observe(consoleSection);
+        } else {
+          startTypingCurrentTab();
+        }
+      }
+
+      var sectionIds = ["top", "about", "impact", "console", "skills", "experience", "certs", "contact"];
+      var sections = sectionIds
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean);
+      var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-link"));
+      var visibility = {};
+
+      function setActiveNav(id) {
+        navLinks.forEach(function (link) {
+          var isMatch = link.getAttribute("href") === "#" + id;
+          link.classList.toggle("active", isMatch);
+          if (isMatch) {
+            link.setAttribute("aria-current", "true");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+      }
+
+      if (sections.length && "IntersectionObserver" in window) {
+        var activeObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            visibility[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0;
+          });
+
+          var activeId = sectionIds[0];
+          var bestRatio = -1;
+
+          sectionIds.forEach(function (id) {
+            var ratio = visibility[id] || 0;
+            if (ratio > bestRatio) {
+              bestRatio = ratio;
+              activeId = id;
+            }
+          });
+
+          if (bestRatio <= 0) {
+            var headerOffset = 120;
+            for (var i = 0; i < sections.length; i += 1) {
+              var rect = sections[i].getBoundingClientRect();
+              if (rect.top - headerOffset <= 0) {
+                activeId = sections[i].id;
+              }
+            }
+          }
+
+          setActiveNav(activeId);
+        }, {
+          threshold: [0.2, 0.35, 0.5, 0.7],
+          rootMargin: "-90px 0px -40% 0px"
+        });
+
+        sections.forEach(function (section) {
+          visibility[section.id] = 0;
+          activeObserver.observe(section);
+        });
+
+        setActiveNav("top");
+      }
+    })();
+  </script>
+</body>
+</html>

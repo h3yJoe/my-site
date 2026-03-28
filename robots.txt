@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bulut-sdet.vercel.app/sitemap.xml
