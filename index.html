@@ -456,10 +456,13 @@
     .grid {
       display: grid;
       gap: 1rem;
+      align-items: start;
     }
 
     .grid.two {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+      grid-auto-flow: dense;
     }
 
     .about-grid {
@@ -476,6 +479,14 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 1rem;
+      align-self: start;
+    }
+
+    /* Allow some cards to span full width on larger screens */
+    @media (min-width: 960px) {
+      .card.full {
+        grid-column: 1 / -1;
+      }
     }
 
     .console-tabs {
@@ -946,7 +957,7 @@
         <a class="pill nav-link" href="#certs">Certifications</a>
         <a class="pill nav-link" href="#contact">Contact</a>
         <a class="pill" href="https://www.linkedin.com/in/bulut-quinlan/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a class="pill" id="resume-link" data-has-resume="true" href="assets/resume.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
+        <a class="pill" id="resume-link" data-has-resume="true" href="assets/Bulut_SDET_QA_BA_AUTOMATION_2026_W2.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
         <button class="pill theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
           <span class="theme-icon" aria-hidden="true">🌙</span>
         </button>
@@ -1159,7 +1170,7 @@
             <li>Defect triage framed by operational impact</li>
           </ul>
         </article>
-        <article class="card">
+        <article class="card full">
           <h3>AI-Assisted QA</h3>
           <ul class="list">
             <li>AI-assisted test design using Copilot, OpenAI, Claude, Windsurf, and Atlassian Rovo</li>
@@ -1227,7 +1238,7 @@
           </div>
         </article>
         
-        <article class="card">
+        <article class="card full">
           <h2>KeHE Distributors</h2>
           <p class="subtle"><strong>QA Automation Engineer</strong> (Oct 2020 - Jun 2021)</p>
           <ul class="list">
@@ -1255,7 +1266,7 @@
     </section>
 
     <section id="certs" class="grid two">
-      <article class="card">
+      <article class="card full">
         <h2>Certifications</h2>
         <ul class="list">
           <li>CompTIA Security+ (Active)</li>
@@ -1685,5 +1696,6 @@
       }
     })();
   </script>
+  <!-- Removed automatic equalize script to preserve natural card heights -->
 </body>
 </html>

@@ -29,7 +29,7 @@ This is a static one-page site built with:
 ## Repository Notes
 
 - `index.html` contains the page content, styling, metadata, and interactive behavior
-- `assets/resume.pdf` contains the downloadable resume
+- `assets/Bulut_SDET_QA_BA_AUTOMATION_2026_W2.pdf` contains the downloadable resume (renamed in workspace)
 - `assets/brand-art.svg` is used for the favicon and social preview image
 
 ## Local Preview
